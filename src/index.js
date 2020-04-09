@@ -4,6 +4,7 @@ import {HashRouter, Route, Switch} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import './assets/css/base.css'
+import './index.css'
 import store from "./redux/store";
 import Main from "./containers/main/Main";
 import Register from "./containers/register/Register";
