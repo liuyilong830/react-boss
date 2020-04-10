@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {
   NavBar,
   WingBlank,
@@ -6,14 +8,16 @@ import {
   InputItem,
   WhiteSpace,
   Radio,
-  Button
+  Button,
 } from 'antd-mobile'
+
+import {register} from '../../redux/actions'
 
 import Logo from '../../components/logo/Logo'
 
 const ListItem = List.Item
 
-export default class Register extends Component {
+class Register extends Component {
   state = {
     username: '',  // 用户名
     password: '',  // 密码
@@ -26,7 +30,7 @@ export default class Register extends Component {
     })
   }
   register = () => {
-    console.log(this.state)
+    this.props.register(this.state)
   }
   toLogin = () => {
     this.props.history.replace('/login')
@@ -34,6 +38,9 @@ export default class Register extends Component {
   
   render() {
     let {type} = this.state
+    if (this.props.user.toReplacePath) {
+      return <Redirect to={this.props.user.toReplacePath}/>
+    }
     return (
       <div>
         <NavBar>阿龙直聘</NavBar>
@@ -64,3 +71,8 @@ export default class Register extends Component {
     )
   }
 }
+
+export default connect(
+  state => ({user: state.user}),
+  {register}
+)(Register)
