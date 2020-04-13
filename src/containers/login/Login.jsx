@@ -33,8 +33,8 @@ class Login extends Component {
   }
   
   render() {
-    if (this.props.user.toReplacePath) {
-      return <Redirect to={this.props.user.toReplacePath}/>
+    if (this.props.user.path) {
+      return <Redirect to={this.props.user.path}/>
     }
     return (
       <div>

@@ -5,3 +5,8 @@ body {
     height: calc(100vh - 45px);
     overflow-y: scroll;
 }
+.public {
+    height: calc(100vh - 45px - 50px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

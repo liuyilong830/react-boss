@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {
   NavBar,
   InputItem,
@@ -8,6 +9,7 @@ import {
 } from 'antd-mobile'
 
 import AvatarSelector from "../../components/avatar-selector/AvatarSelector";
+import {update} from '../../redux/actions'
 
 class PerfectUserInfo extends Component {
   state = {
@@ -28,12 +30,15 @@ class PerfectUserInfo extends Component {
     })
   }
   save = () => {
-  
+    this.props.update(this.state)
   }
   
   render() {
-    console.log(this.props.user)
-    let {type} = this.props.user
+    let {type, avatar} = this.props.user
+    if (avatar) {
+      let path = type === 'laoban'? '/boss' : '/staff'
+      return <Redirect to={path}/>
+    }
     let layout
     if (type === 'laoban') {
       layout = (
@@ -72,5 +77,5 @@ class PerfectUserInfo extends Component {
 
 export default connect(
   state => ({user: state.user}),
-  {}
+  {update}
 )(PerfectUserInfo)

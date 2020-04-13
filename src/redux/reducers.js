@@ -1,9 +1,12 @@
 import {combineReducers} from 'redux'
 import {Toast} from 'antd-mobile'
+import {getRedirectTo} from '../unti/index'
 
 import {
   AUTH_SUCCESS,
-  ERROR_MESSAGE
+  ERROR_MESSAGE,
+  RECEIVE_USER,
+  RECEIVE_ERROR
 } from './action-types'
 
 const initUser = {
@@ -15,17 +18,22 @@ const initUser = {
   info: '',  // 个人或职位信息
   company: '',  // 公司名称
   salary: '', // 月薪
-  toReplacePath: ''
+  path: ''
 }
 function user(state = initUser, action) {
   
   switch (action.type) {
     case AUTH_SUCCESS:
-      let toReplacePath = action.data.type === 'laoban' ? '/bossInfo' : '/staffInfo'
-      return {...state, ...action.data, toReplacePath}
+      let {type, avatar} = action.data
+      return {...state, ...action.data, path: getRedirectTo(type, avatar)}
     case ERROR_MESSAGE:
       Toast.info(action.data, 2)
       return {...state, message: action.data}
+    case RECEIVE_USER:
+      return action.data
+    case RECEIVE_ERROR:
+      Toast.info(action.data, 2)
+      return initUser
     default:
       return state
   }

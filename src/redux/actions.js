@@ -1,16 +1,22 @@
 import {
   reqLogin,
-  reqRegister
+  reqRegister,
+  reqUpdate,
+  reqUser
 } from '../api/index'
 
 import {
   AUTH_SUCCESS,
-  ERROR_MESSAGE
+  ERROR_MESSAGE,
+  RECEIVE_USER,
+  RECEIVE_ERROR
 } from './action-types'
 
 // 同步action
 const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
 const errorMessage = (message) => ({type: ERROR_MESSAGE, data: message})
+const receiveUser = (user) => ({type: RECEIVE_USER, data: user})
+const receiveError = (message) => ({type: RECEIVE_ERROR, data: message})
 
 // 注册的异步action
 export const register = (user) => {
@@ -47,6 +53,31 @@ export const login = (user) => {
       dispatch(authSuccess(response.user))
     } else {
       dispatch(errorMessage(response.message))
+    }
+  }
+}
+
+export const update = (user) => {
+  if (!user.avatar) {
+    return errorMessage('用户头像必须选择')
+  }
+  return async dispatch => {
+    const response = await reqUpdate(user)
+    if (response.code === 200) {
+      dispatch(receiveUser(response.user))
+    } else {
+      dispatch(receiveError(response.message))
+    }
+  }
+}
+
+export const getUser = () => {
+  return async dispatch => {
+    const response = await reqUser()
+    if (response.code === 200) {
+      dispatch(receiveUser(response.user))
+    } else {
+      dispatch(receiveError(response.message))
     }
   }
 }
