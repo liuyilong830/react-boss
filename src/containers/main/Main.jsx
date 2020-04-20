@@ -11,6 +11,7 @@ import Message from "../message/Message";
 import Profile from "../profile/Profile";
 import NotFound from "../../components/not-found/NotFound";
 import NavFonter from "../../components/nav-fonter/NavFonter";
+import Chat from "../chat/Chat";
 import {getRedirectTo} from '../../unti/index'
 import {getUser} from '../../redux/actions'
 
@@ -98,6 +99,7 @@ class Main extends Component {
           }
           <Route path='/bossInfo' component={PerfectUserInfo}/>
           <Route path='/staffInfo' component={PerfectUserInfo}/>
+          <Route path='/chat/:userid' component={Chat}/>
           <Route component={NotFound}/>
         </Switch>
         {

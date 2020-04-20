@@ -2,21 +2,24 @@ import {
   reqLogin,
   reqRegister,
   reqUpdate,
-  reqUser
+  reqUser,
+  reqUserList
 } from '../api/index'
 
 import {
   AUTH_SUCCESS,
   ERROR_MESSAGE,
   RECEIVE_USER,
-  RECEIVE_ERROR
+  RECEIVE_ERROR,
+  RECEIVE_USER_LIST
 } from './action-types'
 
 // 同步action
 const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
 const errorMessage = (message) => ({type: ERROR_MESSAGE, data: message})
 const receiveUser = (user) => ({type: RECEIVE_USER, data: user})
-const receiveError = (message) => ({type: RECEIVE_ERROR, data: message})
+export const receiveError = (message) => ({type: RECEIVE_ERROR, data: message})
+const receiveUserList = (userlist) => ({type: RECEIVE_USER_LIST, data: userlist})
 
 // 注册的异步action
 export const register = (user) => {
@@ -79,5 +82,20 @@ export const getUser = () => {
     } else {
       dispatch(receiveError(response.message))
     }
+  }
+}
+
+export const getUserList = (type) => {
+  return async dispatch => {
+    const response = await reqUserList(type)
+    if (response.code === 200) {
+      dispatch(receiveUserList(response.data))
+    }
+  }
+}
+
+export const sendMsg = ({from, to, content}) => {
+  return dispatch => {
+    console.log({from, to, content})
   }
 }

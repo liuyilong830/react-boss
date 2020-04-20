@@ -6,7 +6,8 @@ import {
   AUTH_SUCCESS,
   ERROR_MESSAGE,
   RECEIVE_USER,
-  RECEIVE_ERROR
+  RECEIVE_ERROR,
+  RECEIVE_USER_LIST
 } from './action-types'
 
 const initUser = {
@@ -39,6 +40,18 @@ function user(state = initUser, action) {
   }
 }
 
+const initUserList = []
+function userList(state = initUserList, action) {
+  
+  switch (action.type) {
+    case RECEIVE_USER_LIST:
+      return action.data
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   user,
+  userList
 })

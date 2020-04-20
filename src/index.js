@@ -3,6 +3,8 @@ import {render} from "react-dom"
 import {HashRouter, Route, Switch} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
+import './test/socket.io_test'
+
 import './assets/css/base.css'
 import './index.css'
 import store from "./redux/store";

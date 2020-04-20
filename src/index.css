@@ -10,3 +10,17 @@ body {
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+.public1 {
+    height: calc(100vh - 45px - 44px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#chat-page .chat-me .am-list-extra {
+    flex-basis: auto; /*宽度包裹内容*/
+}
+#chat-page .chat-me .am-list-content {
+    padding-right: 15px;
+    text-align: right;
+}
