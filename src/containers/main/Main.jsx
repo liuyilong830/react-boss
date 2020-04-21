@@ -63,7 +63,6 @@ class Main extends Component {
     const userId = Cookies.get('userId')
     const {_id} = this.props.user
     if (userId && !_id) {
-      console.log('发送ajax请求')
       this.props.getUser()
     }
   }
@@ -74,7 +73,7 @@ class Main extends Component {
     if (!userId) {
       return <Redirect to='/login'/>
     }
-    let {user, location} = this.props
+    let {user, location, unReadCount} = this.props
     if (!user._id) {
       return null
     }
@@ -103,7 +102,7 @@ class Main extends Component {
           <Route component={NotFound}/>
         </Switch>
         {
-          currentNav? <NavFonter navList={navList} hidePath={hidePath}></NavFonter> : null
+          currentNav? <NavFonter navList={navList} hidePath={hidePath} unReadCount={unReadCount}></NavFonter> : null
         }
       </div>
     )
@@ -111,6 +110,6 @@ class Main extends Component {
 }
 
 export default connect(
-  state => ({user: state.user}),
+  state => ({user: state.user, unReadCount: state.chat.unReadCount}),
   {getUser}
 )(Main)

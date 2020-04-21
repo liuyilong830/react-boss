@@ -8,3 +8,7 @@ export const RECEIVE_USER = 'receive_user'
 export const RECEIVE_ERROR = 'receive_error'
 // 接收用户数组
 export const RECEIVE_USER_LIST = 'receive_user_list'
+// 接收该用户的所有的消息列表
+export const RECEIVE_MSG_LIST = 'receive_msg_list'
+// 接收一条数据
+export const RECEIVE_MSG = 'receive_msg'

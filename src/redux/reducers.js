@@ -7,7 +7,9 @@ import {
   ERROR_MESSAGE,
   RECEIVE_USER,
   RECEIVE_ERROR,
-  RECEIVE_USER_LIST
+  RECEIVE_USER_LIST,
+  RECEIVE_MSG_LIST,
+  RECEIVE_MSG
 } from './action-types'
 
 const initUser = {
@@ -51,7 +53,34 @@ function userList(state = initUserList, action) {
   }
 }
 
+const initChat = {
+  users: {},
+  chatMsgs: [],
+  unReadCount: 0
+}
+function chat(state = initChat, action) {
+  switch (action.type) {
+    case RECEIVE_MSG_LIST:
+      const {users,chatMsgs, userid} = action.data
+      return {
+        users,
+        chatMsgs,
+        unReadCount: chatMsgs.reduce((prev, msg) => prev + (!msg.read&&msg.to === userid? 1 : 0), 0)
+      }
+    case RECEIVE_MSG:
+      const {msg, id} = action.data
+      return {
+        users: state.users,
+        chatMsgs: [...state.chatMsgs, msg],
+        unReadCount: state.unReadCount + (!msg.read&&msg.to === id? 1 : 0)
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   user,
-  userList
+  userList,
+  chat
 })

@@ -16,10 +16,11 @@ class UserList extends Component {
   
   render() {
     const {userList} = this.props
+    let filterlist = userList.filter(user => user.avatar)
     return (
       <WingBlank>
         {
-          userList.map(user => (
+          filterlist.map(user => (
             <div key={user._id}>
               <WhiteSpace/>
               <Card onClick={() => this.props.history.push(`/chat/${user._id}`)}>

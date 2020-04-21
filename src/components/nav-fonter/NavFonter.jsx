@@ -7,11 +7,12 @@ const Item = TabBar.Item
 class NavFonter extends Component {
   static propTypes = {
     navList: PropTypes.array.isRequired,
-    hidePath: PropTypes.string.isRequired
+    hidePath: PropTypes.string.isRequired,
+    unReadCount: PropTypes.number.isRequired
   }
   
   render() {
-    const {navList, hidePath} = this.props
+    const {navList, hidePath, unReadCount} = this.props
     const path = this.props.location.pathname
     const filterNavList = navList.filter(nav => nav.path !== hidePath)
     return (
@@ -23,6 +24,7 @@ class NavFonter extends Component {
           filterNavList.map(nav => <Item
             key={nav.path}
             title={nav.title}
+            badge={nav.path === '/message'? unReadCount : 0}
             icon={{uri: require(`../../assets/img/${nav.icon}.png`)}}
             selectedIcon={{uri: require(`../../assets/img/${nav.icon}-selected.png`)}}
             selected={nav.path === path} onPress={() => this.props.history.replace(nav.path)}>
