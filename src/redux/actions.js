@@ -6,7 +6,7 @@ import {
   reqUser,
   reqUserList,
   reqChatMsgList,
-  // reqReadMsg
+  reqReadMsg
 } from '../api/index'
 
 import {
@@ -16,7 +16,8 @@ import {
   RECEIVE_ERROR,
   RECEIVE_USER_LIST,
   RECEIVE_MSG_LIST,
-  RECEIVE_MSG
+  RECEIVE_MSG,
+  MSG_READ
 } from './action-types'
 
 // 注册成功、登录成功、刷新状态的时候就需要获取该用户的消息列表
@@ -45,6 +46,17 @@ export const sendMsg = ({from, to, content}) => {
     io.socket.emit('sendMsg', {from, to, content})
   }
 }
+// 将消息设置为已读的异步action
+export const readMsg = (from, to) => {
+  console.log(111)
+  return async dispatch => {
+    const result = await reqReadMsg(from)
+    if (result.code === 200) {
+      const count = result.data
+      dispatch(msgRead({from, to, count}))
+    }
+  }
+}
 
 // 同步action
 const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
@@ -53,7 +65,8 @@ const receiveUser = (user) => ({type: RECEIVE_USER, data: user})
 export const receiveError = (message) => ({type: RECEIVE_ERROR, data: message})
 const receiveUserList = (userlist) => ({type: RECEIVE_USER_LIST, data: userlist})
 const receiveMsgList = (data) => ({type: RECEIVE_MSG_LIST, data})
-const receiveMsg = (chatMsg, userid) => ({type: RECEIVE_MSG, data: {chatMsg, userid}})
+const receiveMsg = (msg, id) => ({type: RECEIVE_MSG, data: {msg, id}})
+const msgRead = ({from, to, count}) => ({type: MSG_READ, data: {from, to, count}})
 
 // 注册的异步action
 export const register = (user) => {

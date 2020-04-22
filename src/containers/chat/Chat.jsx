@@ -7,7 +7,7 @@ import {
   Grid,
   Icon
 } from 'antd-mobile'
-import {sendMsg} from '../../redux/actions'
+import {sendMsg, readMsg} from '../../redux/actions'
 const Item = List.Item
 
 class Chat extends Component {
@@ -30,7 +30,14 @@ class Chat extends Component {
   }
   
   componentDidUpdate() {
-    this.list.scrollTo(0, this.list.scrollHeight)
+    if (this.list) {
+      this.list.scrollTo(0, this.list.scrollHeight)
+    }
+  }
+  componentWillUnmount() {
+    const from = this.props.match.params.userid
+    const to = this.props.user._id
+    this.props.readMsg(from, to)
   }
   
   handleClick = (item) => {
@@ -111,5 +118,5 @@ class Chat extends Component {
 
 export default connect(
   state => ({user: state.user, chat: state.chat}),
-  {sendMsg}
+  {sendMsg, readMsg}
 )(Chat)

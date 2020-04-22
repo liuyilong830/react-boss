@@ -9,7 +9,8 @@ import {
   RECEIVE_ERROR,
   RECEIVE_USER_LIST,
   RECEIVE_MSG_LIST,
-  RECEIVE_MSG
+  RECEIVE_MSG,
+  MSG_READ
 } from './action-types'
 
 const initUser = {
@@ -73,6 +74,19 @@ function chat(state = initChat, action) {
         users: state.users,
         chatMsgs: [...state.chatMsgs, msg],
         unReadCount: state.unReadCount + (!msg.read&&msg.to === id? 1 : 0)
+      }
+    case MSG_READ:
+      const {count, from, to} = action.data
+      return {
+        users: state.users,
+        chatMsgs: state.chatMsgs.map(msg => {
+          if (msg.from === from && msg.to === to && !msg.read) {
+            return {...msg, read: true}
+          } else {
+            return msg
+          }
+        }),
+        unReadCount: state.unReadCount - count
       }
     default:
       return state
